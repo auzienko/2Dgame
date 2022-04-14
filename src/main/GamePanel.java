@@ -1,5 +1,7 @@
 package main;
 
+import entity.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,11 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
-
-    //PLAYER'S DEFAULT POSITION
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
+    Player player = new Player(this, keyHandler);
 
     //FPS
     final int FPS = 60;
@@ -36,6 +34,10 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public int getTileSize() {
+        return tileSize;
     }
 
 //    SLEEP GAMELOOP METHOD
@@ -81,25 +83,13 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (keyHandler.upPressed == true) {
-            playerY -= playerSpeed;
-        }
-        if (keyHandler.leftPressed == true) {
-            playerX -= playerSpeed;
-        }
-        if (keyHandler.downPressed == true) {
-            playerY += playerSpeed;
-        }
-        if (keyHandler.rightPressed == true) {
-            playerX += playerSpeed;
-        }
+        player.update();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.white);
-        g2.fillRect(playerX, playerY, tileSize, tileSize);
+        player.draw(g2);
         g2.dispose();
     }
 }
