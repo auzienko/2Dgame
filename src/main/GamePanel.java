@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     Player player = new Player(this, keyHandler);
     TileManager tileManager = new TileManager(this);
+    CollisionChecker collisionChecker = new CollisionChecker(this);
 
     //WORLD SETTINGS
     public final int maxWorldCol = 50;
@@ -74,6 +75,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public CollisionChecker getCollisionChecker() {
+        return collisionChecker;
+    }
+
+    public TileManager getTileManager() {
+        return tileManager;
     }
 
 //    SLEEP GAMELOOP METHOD

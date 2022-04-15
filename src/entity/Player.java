@@ -27,6 +27,8 @@ public class Player extends Entity {
         tileSize = gamePanel.getTileSize();
         screenX = (gamePanel.getScreenWidth() - tileSize) / 2;
         screenY = (gamePanel.getScreenHeight() - tileSize) / 2;
+
+        solidArea = new Rectangle(tileSize / 6, tileSize / 3, tileSize - tileSize / 3, tileSize - tileSize / 3 - tileSize / 12);
         setDefaultValues();
         getPlayerImage();
     }
@@ -38,12 +40,12 @@ public class Player extends Entity {
         direction = playerDirection;
     }
 
-    public int getWorldX () {
-        return  worldX;
+    public int getWorldX() {
+        return worldX;
     }
 
-    public int getWorldY () {
-        return  worldY;
+    public int getWorldY() {
+        return worldY;
     }
 
     public int getScreenX() {
@@ -72,19 +74,29 @@ public class Player extends Entity {
     public void update() {
         if (keyHandler.upPressed == true) {
             direction = "up";
-            worldY -= speed;
         } else if (keyHandler.leftPressed == true) {
             direction = "left";
-            worldX -= speed;
         } else if (keyHandler.downPressed == true) {
             direction = "down";
-            worldY += speed;
         } else if (keyHandler.rightPressed == true) {
             direction = "right";
-            worldX += speed;
         } else {
             return;
         }
+
+        collisionOn = false;
+        gamePanel.getCollisionChecker().checkTile(this);
+        if (!collisionOn) {
+            switch (direction) {
+                case "up" -> worldY -= speed;
+                case "left" -> worldX -= speed;
+                case "down" -> worldY += speed;
+                case "right" -> worldX += speed;
+                default -> {
+                }
+            }
+        }
+
         ++spriteCounter;
         if (spriteCounter > 12) {
             if (spriteNumber == 1) spriteNumber = 2;

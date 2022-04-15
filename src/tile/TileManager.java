@@ -25,24 +25,21 @@ public class TileManager {
     }
 
     public void getTileImage() {
-        try {
-            tiles[0] = new Tile();
-            tiles[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/grass00.png"));
-            tiles[1] = new Tile();
-            tiles[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
-            tiles[2] = new Tile();
-            tiles[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/water00.png"));
-            tiles[3] = new Tile();
-            tiles[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/earth.png"));
-            tiles[4] = new Tile();
-            tiles[4].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tree.png"));
-            tiles[5] = new Tile();
-            tiles[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/road00.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            tiles[0] = new Tile("grass00.png", false );
+            tiles[1] = new Tile("wall.png", true );
+            tiles[2] = new Tile("water00.png", true );
+            tiles[3] = new Tile("earth.png", false );
+            tiles[4] = new Tile("tree.png", true );
+            tiles[5] = new Tile("road00.png", false );
     }
 
+    public int[][] getMapTiles() {
+        return mapTiles;
+    }
+
+    public Tile[] getTiles() {
+        return tiles;
+    }
     public void loadMap(String mapName) {
         try {
             InputStream is = getClass().getResourceAsStream("/maps/" + mapName);
