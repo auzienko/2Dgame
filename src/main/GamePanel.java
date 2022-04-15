@@ -22,6 +22,12 @@ public class GamePanel extends JPanel implements Runnable {
     Player player = new Player(this, keyHandler);
     TileManager tileManager = new TileManager(this);
 
+    //WORLD SETTINGS
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
+
     //FPS
     final int FPS = 60;
 
@@ -48,6 +54,26 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int getMaxScreenRow() {
         return maxScreenRow;
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+
+    public int getMaxWorldCol() {
+        return maxWorldCol;
+    }
+
+    public int getMaxWorldRow() {
+        return maxWorldRow;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
 //    SLEEP GAMELOOP METHOD

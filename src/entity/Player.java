@@ -12,25 +12,46 @@ public class Player extends Entity {
     GamePanel gamePanel;
     KeyHandler keyHandler;
 
+    public final int screenX;
+    public final int screenY;
+
     //PLAYER'S DEFAULT POSITION
-    int playerX = 100;
-    int playerY = 100;
+    int playerX = 23;
+    int playerY = 21;
     int playerSpeed = 4;
     String playerDirection = "down";
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
+        tileSize = gamePanel.getTileSize();
+        screenX = (gamePanel.getScreenWidth() - tileSize) / 2;
+        screenY = (gamePanel.getScreenHeight() - tileSize) / 2;
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        x = playerX;
-        y = playerY;
+        worldX = playerX * tileSize;
+        worldY = playerY * tileSize;
         speed = playerSpeed;
-        tileSize = gamePanel.getTileSize();
         direction = playerDirection;
+    }
+
+    public int getWorldX () {
+        return  worldX;
+    }
+
+    public int getWorldY () {
+        return  worldY;
+    }
+
+    public int getScreenX() {
+        return screenX;
+    }
+
+    public int getScreenY() {
+        return screenY;
     }
 
     public void getPlayerImage() {
@@ -51,16 +72,16 @@ public class Player extends Entity {
     public void update() {
         if (keyHandler.upPressed == true) {
             direction = "up";
-            y -= speed;
+            worldY -= speed;
         } else if (keyHandler.leftPressed == true) {
             direction = "left";
-            x -= speed;
+            worldX -= speed;
         } else if (keyHandler.downPressed == true) {
             direction = "down";
-            y += speed;
+            worldY += speed;
         } else if (keyHandler.rightPressed == true) {
             direction = "right";
-            x += speed;
+            worldX += speed;
         } else {
             return;
         }
@@ -102,6 +123,6 @@ public class Player extends Entity {
             default:
                 break;
         }
-        g2.drawImage(image, x, y, tileSize, tileSize, null);
+        g2.drawImage(image, screenX, screenY, tileSize, tileSize, null);
     }
 }
