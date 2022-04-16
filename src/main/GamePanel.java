@@ -1,6 +1,7 @@
 package main;
 
 import entity.Player;
+import object.SuperObject;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -22,6 +23,8 @@ public class GamePanel extends JPanel implements Runnable {
     Player player = new Player(this, keyHandler);
     TileManager tileManager = new TileManager(this);
     CollisionChecker collisionChecker = new CollisionChecker(this);
+    AssetSetter assetSetter = new AssetSetter(this);
+    SuperObject[] objs = new SuperObject[10];
 
     //WORLD SETTINGS
     public final int maxWorldCol = 50;
@@ -43,6 +46,10 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void setupGame() {
+        assetSetter.setObject();
     }
 
     public int getTileSize() {
@@ -85,6 +92,10 @@ public class GamePanel extends JPanel implements Runnable {
         return tileManager;
     }
 
+    public SuperObject[] getObjs() {
+        return objs;
+    }
+
 //    SLEEP GAMELOOP METHOD
 //    @Override
 //    public void run() {
@@ -106,7 +117,7 @@ public class GamePanel extends JPanel implements Runnable {
 //        }
 //    }
 
-//    DELTA/ACCUMULATOR GAMELOOP METHOD
+    //    DELTA/ACCUMULATOR GAMELOOP METHOD
     @Override
     public void run() {
         double drawInterval = 1000000000 / FPS;
@@ -135,6 +146,9 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         tileManager.draw(g2);
+        for (int i = 0; i < objs.length; i++) {
+            if (objs[i] != null) objs[i].draw(g2, this);
+        }
         player.draw(g2);
         g2.dispose();
     }

@@ -28,7 +28,7 @@ public class Player extends Entity {
         screenX = (gamePanel.getScreenWidth() - tileSize) / 2;
         screenY = (gamePanel.getScreenHeight() - tileSize) / 2;
 
-        solidArea = new Rectangle(tileSize / 6, tileSize / 3, tileSize - tileSize / 3, tileSize - tileSize / 3 - tileSize / 12);
+        solidArea = new Rectangle(tileSize / 6, tileSize / 3, tileSize - tileSize / 3, tileSize - tileSize / 3);
         setDefaultValues();
         getPlayerImage();
     }
@@ -86,14 +86,22 @@ public class Player extends Entity {
 
         collisionOn = false;
         gamePanel.getCollisionChecker().checkTile(this);
-        if (!collisionOn) {
+        if (collisionOn == false) {
             switch (direction) {
-                case "up" -> worldY -= speed;
-                case "left" -> worldX -= speed;
-                case "down" -> worldY += speed;
-                case "right" -> worldX += speed;
-                default -> {
-                }
+                case "up":
+                    worldY -= speed;
+                    break;
+                case "left":
+                    worldX -= speed;
+                    break;
+                case "down":
+                    worldY += speed;
+                    break;
+                case "right":
+                    worldX += speed;
+                    break;
+                default:
+                    break;
             }
         }
 
