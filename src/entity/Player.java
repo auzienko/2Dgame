@@ -14,6 +14,7 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
+    int hasKey = 0;
 
     //PLAYER'S DEFAULT POSITION
     int playerX = 23;
@@ -27,7 +28,8 @@ public class Player extends Entity {
         tileSize = gamePanel.getTileSize();
         screenX = (gamePanel.getScreenWidth() - tileSize) / 2;
         screenY = (gamePanel.getScreenHeight() - tileSize) / 2;
-
+        solidAreaDefaultX = tileSize / 6;
+        solidAreaDefaultY = tileSize / 3;
         solidArea = new Rectangle(tileSize / 6, tileSize / 3, tileSize - tileSize / 3, tileSize - tileSize / 3);
         setDefaultValues();
         getPlayerImage();
@@ -86,6 +88,9 @@ public class Player extends Entity {
 
         collisionOn = false;
         gamePanel.getCollisionChecker().checkTile(this);
+        int objIndex = gamePanel.getCollisionChecker().checkObject(this, true);
+        pickUpObject(objIndex);
+
         if (collisionOn == false) {
             switch (direction) {
                 case "up":
@@ -144,5 +149,25 @@ public class Player extends Entity {
                 break;
         }
         g2.drawImage(image, screenX, screenY, tileSize, tileSize, null);
+    }
+
+    public void pickUpObject(int index) {
+        if (index != 999) {
+            String objectName = gamePanel.getObjs()[index].getName();
+            switch (objectName) {
+                case "Key":
+                    hasKey++;
+                    gamePanel.getObjs()[index] = null;
+                    break;
+                case "Door":
+                    if (hasKey > 0) {
+                        hasKey--;
+                        gamePanel.getObjs()[index] = null;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
