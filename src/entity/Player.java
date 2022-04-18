@@ -157,13 +157,25 @@ public class Player extends Entity {
             switch (objectName) {
                 case "Key":
                     hasKey++;
+                    gamePanel.playSE(1);
                     gamePanel.getObjs()[index] = null;
                     break;
                 case "Door":
                     if (hasKey > 0) {
                         hasKey--;
+                        gamePanel.playSE(3);
                         gamePanel.getObjs()[index] = null;
                     }
+                    break;
+                case "Boots":
+                    speed += 2;
+                    gamePanel.playSE(2);
+                    gamePanel.getObjs()[index] = null;
+                    break;
+                case "Chest":
+                    gamePanel.playSE(4);
+                    gamePanel.stopMusic();
+                    gamePanel.getObjs()[index] = null;
                     break;
                 default:
                     break;
